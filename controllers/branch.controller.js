@@ -20,5 +20,5 @@ module.exports.branchController = {
     } catch (error) {
       res.json(error);
     }
-  }
+  },
 };

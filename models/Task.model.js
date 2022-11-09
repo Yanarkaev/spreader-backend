@@ -4,6 +4,7 @@ const taskSchema = mongoose.Schema(
   {
     title: String,
     text: String,
+    state: { type: String, default: "new" },
     userId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
@@ -14,9 +15,11 @@ const taskSchema = mongoose.Schema(
     },
     points: Number,
     time: Number,
+    message: [],
   },
+
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

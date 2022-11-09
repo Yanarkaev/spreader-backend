@@ -13,14 +13,10 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "USER",
   },
-  tasks: {
-    type: Array,
-    default: [],
-  },
   branchId: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: "Branch"
-  }
+    ref: "Branch",
+  },
 });
 
 const User = mongoose.model("User", userSchema);
