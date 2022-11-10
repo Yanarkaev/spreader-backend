@@ -85,6 +85,7 @@ module.exports.taskController = {
       const taskById = await Task.findById(req.params.id)
         .populate("branchId")
         .populate("userId");
+        
       res.json(taskById);
     } catch (error) {
       res.json({ error: error });
