@@ -57,7 +57,7 @@ module.exports.authController = {
         id: condidate._id,
         login: condidate.login,
         role: condidate.role,
-        branch: condidate.branchId.name
+        branch: condidate.branchId?.name
       };
 
       const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
@@ -70,7 +70,7 @@ module.exports.authController = {
 
       res.json(token);
     } catch (error) {
-      res.json({ error: "неверный логин или пароль " });
+      res.json({ error: "неверный логин или пароль" });
     }
   },
 

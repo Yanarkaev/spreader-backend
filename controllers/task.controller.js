@@ -15,7 +15,7 @@ module.exports.taskController = {
   // добавить задачу
   postTask: async (req, res) => {
     try {
-      const { title, text, userId, branchId, time, points } = req.body;
+      const { title, text, userId, branchId, time, points, state } = req.body;
       const postedTask = await Task.create({
         title,
         text,
@@ -23,6 +23,7 @@ module.exports.taskController = {
         branchId,
         points,
         time,
+        state
       });
 
       const data = await Task.findById(postedTask._id)
