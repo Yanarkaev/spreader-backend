@@ -12,7 +12,7 @@ module.exports.taskController = {
     }
   },
 
-  // добавить задачу
+    // добавить задачу
   postTask: async (req, res) => {
     try {
       const { title, text, userId, branchId, time, points, state } = req.body;
