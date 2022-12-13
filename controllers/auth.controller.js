@@ -57,7 +57,8 @@ module.exports.authController = {
         id: condidate._id,
         login: condidate.login,
         role: condidate.role,
-        branch: condidate.branchId?.name
+        branch: condidate.branchId?.name,
+        branchId: condidate.branchId?._id
       };
 
       const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
