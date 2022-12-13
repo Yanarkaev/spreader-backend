@@ -1,7 +1,7 @@
-const { find, findById } = require("../models/Task.model");
 const Task = require("../models/Task.model");
-const User = require("../models/user.model");
+
 module.exports.taskController = {
+  
   // получить все задачи
   getTasks: async (req, res) => {
     try {
@@ -12,10 +12,10 @@ module.exports.taskController = {
     }
   },
 
-  // добавить задачу
+    // добавить задачу
   postTask: async (req, res) => {
     try {
-      const { title, text, userId, branchId, time, points } = req.body;
+      const { title, text, userId, branchId, time, points, state } = req.body;
       const postedTask = await Task.create({
         title,
         text,
@@ -23,6 +23,7 @@ module.exports.taskController = {
         branchId,
         points,
         time,
+        state,
       });
 
       const data = await Task.findById(postedTask._id)
@@ -35,7 +36,6 @@ module.exports.taskController = {
   },
 
   // Добавить заметку в задачу
-
   message: async (req, res) => {
     try {
       const task = await Task.findByIdAndUpdate(
@@ -50,12 +50,11 @@ module.exports.taskController = {
   },
 
   // Взять задачу в работу
-
   work: async (req, res) => {
     try {
       const task = await Task.findByIdAndUpdate(
         req.params.id,
-        { state: "inWork", userId: req.body.userId },
+        { state: "inWork", userId: req.body.userId, branchId: req.body.branchId },
         { new: true }
       );
       res.json(task);
@@ -65,7 +64,6 @@ module.exports.taskController = {
   },
 
   // Закрыть задачу
-
   close: async (req, res) => {
     try {
       const task = await Task.findByIdAndUpdate(
@@ -85,6 +83,7 @@ module.exports.taskController = {
       const taskById = await Task.findById(req.params.id)
         .populate("branchId")
         .populate("userId");
+
       res.json(taskById);
     } catch (error) {
       res.json({ error: error });
@@ -92,7 +91,6 @@ module.exports.taskController = {
   },
 
   // получить задачи по отделу
-
   getTasksByBranch: async (req, res) => {
     try {
       const taskByBranch = await Task.find({
