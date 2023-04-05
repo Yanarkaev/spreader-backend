@@ -1,7 +1,6 @@
 const Task = require("../models/Task.model");
 
 module.exports.taskController = {
-  
   // получить все задачи
   getTasks: async (req, res) => {
     try {
@@ -12,7 +11,17 @@ module.exports.taskController = {
     }
   },
 
-    // добавить задачу
+  getNewTasks: async (req, res) => {
+    try {
+      const tasks = await Task.find({state: "new"}).populate("branchId");
+      res.json(tasks);
+    } catch (error) {
+      res.json({ error: error });
+      
+    }
+  },
+
+  // добавить задачу
   postTask: async (req, res) => {
     try {
       const { title, text, userId, branchId, time, points, state } = req.body;
@@ -54,7 +63,11 @@ module.exports.taskController = {
     try {
       const task = await Task.findByIdAndUpdate(
         req.params.id,
-        { state: "inWork", userId: req.body.userId, branchId: req.body.branchId },
+        {
+          state: "inWork",
+          userId: req.body.userId,
+          branchId: req.body.branchId,
+        },
         { new: true }
       );
       res.json(task);
@@ -97,6 +110,16 @@ module.exports.taskController = {
         branchId: req.params.id,
       }).populate("branchId");
       res.json(taskByBranch);
+    } catch (error) {
+      res.json({ error: error });
+    }
+  },
+
+  getTasksByUser: async (req, res) => {
+    try {
+      const tasksByUser = await Task.find({ userId: req.params.userId });
+
+      res.json(tasksByUser);
     } catch (error) {
       res.json({ error: error });
     }
