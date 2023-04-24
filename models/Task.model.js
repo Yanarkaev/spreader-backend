@@ -15,7 +15,7 @@ const taskSchema = mongoose.Schema(
     },
     points: Number,
     time: Number,
-    message: [],
+    notes: String,
   },
 
   {

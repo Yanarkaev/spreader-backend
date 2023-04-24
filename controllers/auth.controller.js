@@ -58,7 +58,7 @@ module.exports.authController = {
         login: condidate.login,
         role: condidate.role,
         branch: condidate.branchId?.name,
-        branchId: condidate.branchId?._id
+        branchId: condidate.branchId?._id,
       };
 
       const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
@@ -77,10 +77,19 @@ module.exports.authController = {
 
   getUsers: async (req, res) => {
     try {
-      const users = await User.find({role: "USER"}).populate('branchId')
-      res.json(users)
+      const users = await User.find({ role: "USER" }).populate("branchId");
+      res.json(users);
     } catch (error) {
-      res.json({error: error})
+      res.json({ error: error });
     }
-  }
+  },
+
+  getUser: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.userId).populate("branchId");
+      res.json(user);
+    } catch (error) {
+      res.json({ error: error });
+    }
+  },
 };

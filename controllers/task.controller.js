@@ -13,11 +13,10 @@ module.exports.taskController = {
 
   getNewTasks: async (req, res) => {
     try {
-      const tasks = await Task.find({state: "new"}).populate("branchId");
+      const tasks = await Task.find({ state: "new" }).populate("branchId");
       res.json(tasks);
     } catch (error) {
       res.json({ error: error });
-      
     }
   },
 
@@ -47,11 +46,9 @@ module.exports.taskController = {
   // Добавить заметку в задачу
   message: async (req, res) => {
     try {
-      const task = await Task.findByIdAndUpdate(
-        req.params.id,
-        { $push: { message: req.body.message } },
-        { new: true }
-      );
+      const task = await Task.findByIdAndUpdate(req.params.id, {
+        notes: req.body.notes,
+      });
       res.json(task);
     } catch (error) {
       res.json(error);
