@@ -6,21 +6,39 @@ module.exports.authController = {
   // регистрация
   signUp: async (req, res) => {
     try {
-      const { login, password, role, branchId } = req.body;
+      const { name, surname, login, password, role, branchId } = req.body;
 
-      if (password.length <= 0 || login.length <= 0) {
-        return res.json({ error: "все поля должны быть заполнены" });
+      if (
+        password.length <= 0 ||
+        login.length <= 0 ||
+        name.length <= 0 ||
+        surname.length <= 0
+      ) {
+        return res.json({ error: "Все поля должны быть заполнены" });
       }
 
-      if (login.length < 3) {
-        return res.json({ error: "минимальная длина логина: 3 символа" });
+      if (name.replace(/[А-я, A-z]/g, "").length !== 0) {
+        return res.json({ error: "Недопустимое имя"});
+      }
+
+      if (surname.replace(/[А-я, A-z]/g, "").length !== 0) {
+        return res.json({ error: "Недопустимая фамилия"});
+      }
+
+      if (login.replace(/[A-z]/g, "").length !== 0) {
+        return res.json({ error: "Недопустимый логин"});
+      }
+
+      if (login.length < 5) {
+        return res.json({ error: "Минимальная длина логина: 5 символа" });
       }
 
       if (password.length < 5) {
-        return res.json({ error: "минимальная длина пароля: 5 символов" });
+        return res.json({ error: "Минимальная длина пароля: 5 символов" });
       }
 
       const condidate = await User.findOne({ login });
+
       if (condidate) {
         return res.status(400).json({ error: "Такой логин уже существует" });
       }
@@ -28,6 +46,8 @@ module.exports.authController = {
       const hashPassword = await bcrypt.hash(password, 7);
 
       const currentUser = await User.create({
+        name,
+        surname,
         login,
         password: hashPassword,
         role,
@@ -55,6 +75,8 @@ module.exports.authController = {
 
       const payload = {
         id: condidate._id,
+        name: condidate.name,
+        surname: condidate.surname,
         login: condidate.login,
         role: condidate.role,
         branch: condidate.branchId?.name,
