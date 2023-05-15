@@ -3,7 +3,7 @@ const { branchController } = require("../controllers/branch.controller");
 
 const router = Router()
 
-router.get("/spreader/branch", branchController.getBranches)
-router.post("/spreader/branch", branchController.postBranch);
+router.get("/branch", branchController.getBranches)
+router.post("/branch", branchController.postBranch);
 
 module.exports = router

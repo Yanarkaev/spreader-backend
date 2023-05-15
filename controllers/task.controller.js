@@ -43,6 +43,17 @@ module.exports.taskController = {
     }
   },
 
+  handleTime: async (req, res) => {
+    try {
+      const task = await Task.findByIdAndUpdate(req.params.id, {
+        time: req.body.time,
+      });
+      res.json(task);
+    } catch (error) {
+      res.json({ error: error });
+    }
+  },
+
   // Добавить заметку в задачу
   message: async (req, res) => {
     try {
@@ -51,7 +62,7 @@ module.exports.taskController = {
       });
       res.json(task);
     } catch (error) {
-      res.json(error);
+      res.json({ error: error });
     }
   },
 
@@ -69,7 +80,7 @@ module.exports.taskController = {
       );
       res.json(task);
     } catch (error) {
-      res.json(error);
+      res.json({ error: error });
     }
   },
 
@@ -83,7 +94,7 @@ module.exports.taskController = {
       );
       res.json(task);
     } catch (error) {
-      res.json(error);
+      res.json({ error: error });
     }
   },
 
