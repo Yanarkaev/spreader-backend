@@ -5,5 +5,6 @@ const router = Router()
 
 router.get("/branch", branchController.getBranches)
 router.post("/branch", branchController.postBranch);
+router.delete("/branch/:id", branchController.deleteBranch);
 
 module.exports = router
